@@ -1,0 +1,3 @@
+app_product_list:
+    path: /products
+    controller: App\Infrastructure\Controller\ProductController::listAction
