@@ -7,6 +7,7 @@ namespace App\Domain\Model\QueryDTO;
 class ProductDto
 {
     private string $name;
+    private string $id;
     private int $amount;
 
     public function getName(): string
@@ -28,6 +29,17 @@ class ProductDto
     public function setAmount(int $amount = 0): self
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): ProductDto
+    {
+        $this->id = $id;
         return $this;
     }
 }

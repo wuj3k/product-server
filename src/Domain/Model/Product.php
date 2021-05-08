@@ -4,6 +4,8 @@
 namespace App\Domain\Model;
 
 
+use App\Domain\Model\QueryDTO\ProductDto;
+
 class Product
 {
     private string $id;
@@ -15,5 +17,11 @@ class Product
         $this->id = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
         $this->name = $name;
         $this->amount = $amount;
+    }
+
+    public function updateData(ProductDto $productDto): void
+    {
+        if ($productDto->getName() !== $this->name) $this->name = $productDto->getName();
+        if ($productDto->getAmount() !== $this->amount) $this->amount = $productDto->getAmount();
     }
 }

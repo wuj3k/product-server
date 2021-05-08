@@ -11,4 +11,8 @@ interface ProductRepositoryInterface
     public function isProductNameAlreadyTaken(string $productName): bool;
 
     public function save(Product $product): void;
+
+    public function getProductById(string $id): ?Product;
+
+    public function deleteProductById(string $id): void;
 }
