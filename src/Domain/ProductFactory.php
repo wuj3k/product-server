@@ -13,7 +13,7 @@ class ProductFactory
 {
     public const ERROR_NAME_BLANK = 'Nazwa produktu musi posiadać conajmniej jeden znak';
     public const ERROR_NAME_EXISTS = 'Istnieje produkt z podaną nazwą produktu';
-    public const ERROR_AMOUNT_VALUE = 'Ilość produktu musi być dodania';
+    public const ERROR_AMOUNT_VALUE = 'Ilość produktu musi być większa od zera';
 
     private ProductRepositoryInterface $repository;
 

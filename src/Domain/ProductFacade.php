@@ -4,8 +4,8 @@
 namespace App\Domain;
 
 
-use App\Domain\Model\Product;
 use App\Domain\Model\QueryDTO\ProductDto;
+use App\Domain\Model\QueryDTO\ProductQuery;
 use App\Domain\Model\QueryDTO\ResponseDto;
 use App\Domain\Ports\ProductRepositoryInterface;
 
@@ -20,6 +20,18 @@ class ProductFacade
         $this->productRepository = $productRepository;
     }
 
+    public function get(ProductDto $productDto, ProductQuery $productQuery): ResponseDto
+    {
+        $statusCode = 201;
+
+        if(empty($productDto->getId())) $data = $this->productRepository->getProductByQuery($productQuery);
+        else $data = $this->productRepository->getProductById($productDto->getId());
+
+        if (empty($data)) $statusCode = 404;
+
+        return $this->getResponse($statusCode, $data);
+    }
+    
     public function save(ProductDto $productDto): ResponseDto
     {
         $errors = $this->factory->validateProductData($productDto);
@@ -28,7 +40,7 @@ class ProductFacade
             return $this->getResponse(422, $errors);
         }
 
-        $product = new Product($productDto->getName(), $productDto->getAmount());
+        $product = $this->factory->getProduct($productDto->getName(), $productDto->getAmount());
 
         try {
             $this->productRepository->save($product);

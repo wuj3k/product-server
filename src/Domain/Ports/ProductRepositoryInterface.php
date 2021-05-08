@@ -5,6 +5,7 @@ namespace App\Domain\Ports;
 
 
 use App\Domain\Model\Product;
+use App\Domain\Model\QueryDTO\ProductQuery;
 
 interface ProductRepositoryInterface
 {
@@ -15,4 +16,6 @@ interface ProductRepositoryInterface
     public function getProductById(string $id): ?Product;
 
     public function deleteProductById(string $id): void;
+
+    public function getProductByQuery(ProductQuery $productQuery): array;
 }

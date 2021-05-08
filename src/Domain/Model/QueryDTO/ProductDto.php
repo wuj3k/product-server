@@ -7,7 +7,7 @@ namespace App\Domain\Model\QueryDTO;
 class ProductDto
 {
     private string $name;
-    private string $id;
+    private string $id = '';
     private int $amount;
 
     public function getName(): string
