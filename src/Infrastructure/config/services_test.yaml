@@ -1,0 +1,11 @@
+services:
+    App\Domain\ProductFactory:
+      arguments:
+        - '@App\Application\Repository\InMemoryProductRepository'
+    App\Application\Repository\InMemoryProductRepository:
+      public: true
+    App\Domain\ProductFacade:
+      public: true
+      arguments:
+        - '@App\Domain\ProductFactory'
+        - '@App\Application\Repository\InMemoryProductRepository'
