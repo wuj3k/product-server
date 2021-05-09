@@ -9,9 +9,9 @@ class ResponseDto
     private int $statusCode;
     private array $data;
 
-    public function __construct(array $message, int $statusCode)
+    public function __construct(array $data, int $statusCode)
     {
-        $this->data = $message;
+        $this->data = $data;
         $this->statusCode = $statusCode;
     }
 

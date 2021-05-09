@@ -24,10 +24,10 @@ class ProductFacade
     {
         $statusCode = 201;
 
-        if(empty($productDto->getId())) $data = $this->productRepository->getProductByQuery($productQuery);
-        else $data = $this->productRepository->getProductById($productDto->getId());
+        if(empty($productDto->getId())) $data = $this->productRepository->getProductDtoByQuery($productQuery);
+        else $data = [$this->productRepository->getProductDtoById($productDto->getId())];
 
-        if (empty($data)) $statusCode = 404;
+        if (empty($data)) return $this->getResponse(404, [], 'Brak produktów w bazie');
 
         return $this->getResponse($statusCode, $data);
     }

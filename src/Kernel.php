@@ -15,10 +15,9 @@ class Kernel extends BaseKernel
     {
         $container->import('Infrastructure/config/{packages}/*.yaml');
         $container->import('Infrastructure/config/{packages}/'.$this->environment.'/*.yaml');
-
-        if (is_file(\dirname(__DIR__).'/Infrastructure/config/services.yaml')) {
-            $container->import('/Infrastructure/config/services.yaml');
-            $container->import('/Infrastructure/config/{services}_'.$this->environment.'.yaml');
+        if (is_file(\dirname(__DIR__).'/src/Infrastructure/config/services.yaml')) {
+            $container->import('Infrastructure/config/services.yaml');
+            $container->import('Infrastructure/config/{services}_'.$this->environment.'.yaml');
         } elseif (is_file($path = \dirname(__DIR__).'/Infrastructure/config/services.php')) {
             (require $path)($container->withPath($path), $this);
         }

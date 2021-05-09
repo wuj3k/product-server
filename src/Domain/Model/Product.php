@@ -24,4 +24,19 @@ class Product
         if ($productDto->getName() !== $this->name) $this->name = $productDto->getName();
         if ($productDto->getAmount() !== $this->amount) $this->amount = $productDto->getAmount();
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
 }

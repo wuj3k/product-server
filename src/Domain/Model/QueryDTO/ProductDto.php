@@ -37,9 +37,18 @@ class ProductDto
         return $this->id;
     }
 
-    public function setId(string $id): ProductDto
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;
+    }
+
+    public function __toArray(): array
+    {
+        return [
+          'name' => $this->getName(),
+          'id' => $this->getId(),
+          'amount' => $this->getAmount(),
+        ];
     }
 }
