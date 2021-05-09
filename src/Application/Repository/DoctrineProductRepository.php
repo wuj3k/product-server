@@ -8,40 +8,64 @@ use App\Domain\Model\Product;
 use App\Domain\Model\QueryDTO\ProductDto;
 use App\Domain\Model\QueryDTO\ProductQuery;
 use App\Domain\Ports\ProductRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-class DoctrineProductRepository implements ProductRepositoryInterface
+class DoctrineProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {
     public function isProductNameAlreadyTaken(string $productName): bool
     {
-        // TODO: Implement isProductNameAlreadyTaken() method.
+        $result = $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->where('t.name = :name')
+            ->setParameter('name', $productName)
+            ->getQuery()
+            ->getSingleScalarResult();
+        return (bool)$result;
     }
 
     public function save(Product $product): void
     {
-        // TODO: Implement save() method.
+        try {
+            $this->getEntityManager()->beginTransaction();
+            $this->getEntityManager()->persist($product);
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->commit();
+        } catch (\Exception $exception) {
+            $this->getEntityManager()->rollback();
+            throw $exception;
+        }
     }
 
     public function getProductById(string $id): ?Product
     {
-        // TODO: Implement getProductById() method.
+        return $this->getEntityManager()->find(Product::class, $id);
     }
 
     public function deleteProductById(string $id): void
     {
-        // TODO: Implement deleteProductById() method.
+        $product = $this->getEntityManager()->find(Product::class, $id);
+        if (!$product) return;
+        $this->getEntityManager()->remove($product);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getProductDtoByQuery(ProductQuery $productQuery): array
     {
-        // TODO: Implement getProductDtoByQuery() method.
+        $where = 't.'. $productQuery . ':amount';
+        return $this->createQueryBuilder('t')
+            ->select('NEW App\Domain\Model\QueryDTO\ProductDto::class(t.name,t.amount,t.id)')
+            ->where($where)
+            ->setParameter('amount', $productQuery->getAmount())
+            ->getQuery()
+            ->getArrayResult();
     }
 
     public function getProductDtoById(string $id): ?ProductDto
     {
-        // TODO: Implement getProductDtoById() method.
+        return $this->createQueryBuilder('t')
+            ->select('NEW App\Domain\Model\QueryDTO\ProductDto::class(t.name,t.amount,t.id)')
+            ->where('t.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
     }
 }

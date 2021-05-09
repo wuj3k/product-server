@@ -13,3 +13,7 @@ services:
 
     App\Infrastructure\Controller\ProductController:
         tags: [ 'controller.service_arguments']
+    App\Application\Repository\DoctrineProductRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - 'App\Domain\Model\Product'

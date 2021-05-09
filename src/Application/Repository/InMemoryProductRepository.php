@@ -39,11 +39,7 @@ class InMemoryProductRepository implements ProductRepositoryInterface
         $product = $this->getProductById($id);
         if (empty($product)) return null;
 
-        $productDto = new ProductDto();
-        return $productDto
-            ->setAmount($product->getAmount())
-            ->setName($product->getName())
-            ->setId($product->getId());
+        return new ProductDto($product->getName(), $product->getAmount(), $product->getId());
     }
 
     public function getProductById(string $id): ?Product

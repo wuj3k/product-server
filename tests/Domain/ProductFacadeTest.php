@@ -18,7 +18,7 @@ class ProductFacadeTest extends WebTestCase
 
     public function testSaveProductWhenAllProductDataIsCorrect()
     {
-        $firstProduct = (new ProductDto())->setName('Rower')->setAmount(2);
+        $firstProduct = new ProductDto('Rower',2);
         $response = $this->productFacade->save($firstProduct);
 
         $productsInRepository = $this->repository->getProducts();
@@ -33,7 +33,7 @@ class ProductFacadeTest extends WebTestCase
 
     public function testGetErrorMessageWhenProductNameIsInCorrect()
     {
-        $firstProduct = (new ProductDto())->setName('')->setAmount(2);
+        $firstProduct = new ProductDto('',2);
         $response = $this->productFacade->save($firstProduct);
 
         $this->assertEquals(422, $response->getStatusCode());
@@ -43,7 +43,7 @@ class ProductFacadeTest extends WebTestCase
 
     public function testGetErrorMessageWhenProductAmountIsInCorrect()
     {
-        $firstProduct = (new ProductDto())->setName('Rower')->setAmount(-2);
+        $firstProduct = new ProductDto('Rower', -2);
         $response = $this->productFacade->save($firstProduct);
 
         $this->assertEquals(422, $response->getStatusCode());
@@ -130,13 +130,13 @@ class ProductFacadeTest extends WebTestCase
 
     public function testGetProductByIdWhenIdIsAvailable()
     {
-        $firstProduct = (new ProductDto())->setName('Rower')->setAmount(2);
+        $firstProduct = new ProductDto('Rower', 2);
         $this->productFacade->save($firstProduct);
 
         $productsInRepository = $this->repository->getProducts();
         $id = array_key_first($productsInRepository);
 
-        $wantedProduct = (clone $firstProduct)->setId($id);
+        $wantedProduct = new ProductDto($firstProduct->getName(), $firstProduct->getAmount(), $id);
         $query = new ProductQuery();
 
         $response = $this->productFacade->get($wantedProduct, $query);
@@ -147,7 +147,7 @@ class ProductFacadeTest extends WebTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $this->productFacade = self::$kernel->getContainer()->get(\App\Domain\ProductFacade::class);
+        $this->productFacade = self::$kernel->getContainer()->get(ProductFacade::class);
         $this->repository = self::$kernel->getContainer()->get(InMemoryProductRepository::class);
 
     }
@@ -159,9 +159,9 @@ class ProductFacadeTest extends WebTestCase
 
     private function saveProductToDb(): void
     {
-        $firstProduct = (new ProductDto())->setName('Rower')->setAmount(0);
-        $secondProduct = (new ProductDto())->setName('Samochod')->setAmount(5);
-        $thirdProduct = (new ProductDto())->setName('Samolot')->setAmount(7);
+        $firstProduct = new ProductDto('Rower');
+        $secondProduct = new ProductDto('Samochod',5);
+        $thirdProduct = new ProductDto('Samolot', 7);
 
         $this->productFacade->save($firstProduct);
         $this->productFacade->save($secondProduct);

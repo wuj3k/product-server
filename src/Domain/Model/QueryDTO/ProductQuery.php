@@ -12,8 +12,8 @@ class ProductQuery
     public const QUERY_AMOUNT_TYPE_GREATER = 3;
     public const QUERY_AMOUNT_TYPE_CHAR = [
       self::QUERY_AMOUNT_TYPE_EQUAL => '=',
-      self::QUERY_AMOUNT_TYPE_LESS => '<=',
-      self::QUERY_AMOUNT_TYPE_GREATER => '>=',
+      self::QUERY_AMOUNT_TYPE_LESS => '<',
+      self::QUERY_AMOUNT_TYPE_GREATER => '>',
     ];
     private int $amount;
     private int $type = self::QUERY_AMOUNT_TYPE_TURN_OFF;
@@ -42,6 +42,6 @@ class ProductQuery
 
     public function __toString(): string
     {
-       return self::QUERY_AMOUNT_TYPE_CHAR[$this->getType()] . $this->amount ?? '';
+       return 'amount '. self::QUERY_AMOUNT_TYPE_CHAR[$this->getType()] . $this->amount ?? '';
     }
 }
