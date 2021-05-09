@@ -46,23 +46,29 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
         $product = $this->getEntityManager()->find(Product::class, $id);
         if (!$product) return;
         $this->getEntityManager()->remove($product);
+        $this->getEntityManager()->flush();
     }
 
     public function getProductDtoByQuery(ProductQuery $productQuery): array
     {
-        $where = 't.'. $productQuery . ':amount';
-        return $this->createQueryBuilder('t')
-            ->select('NEW App\Domain\Model\QueryDTO\ProductDto::class(t.name,t.amount,t.id)')
-            ->where($where)
-            ->setParameter('amount', $productQuery->getAmount())
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('NEW \App\Domain\Model\QueryDTO\ProductDto(t.name,t.amount,t.id)');
+        if($productQuery->getAmount() && (string)$productQuery) {
+            $where = 't.'. $productQuery . ' :amount';
+            $queryBuilder
+                ->where($where)
+                ->setParameter('amount', $productQuery->getAmount());
+        }
+
+        return $queryBuilder
             ->getQuery()
-            ->getArrayResult();
+            ->getResult();
     }
 
     public function getProductDtoById(string $id): ?ProductDto
     {
         return $this->createQueryBuilder('t')
-            ->select('NEW App\Domain\Model\QueryDTO\ProductDto::class(t.name,t.amount,t.id)')
+            ->select('NEW App\Domain\Model\QueryDTO\ProductDto(t.name,t.amount,t.id)')
             ->where('t.id = :id')
             ->setParameter('id', $id)
             ->getQuery()

@@ -11,12 +11,17 @@ class ProductQuery
     public const QUERY_AMOUNT_TYPE_LESS = 2;
     public const QUERY_AMOUNT_TYPE_GREATER = 3;
     public const QUERY_AMOUNT_TYPE_CHAR = [
-      self::QUERY_AMOUNT_TYPE_EQUAL => '=',
-      self::QUERY_AMOUNT_TYPE_LESS => '<',
-      self::QUERY_AMOUNT_TYPE_GREATER => '>',
+        self::QUERY_AMOUNT_TYPE_EQUAL => '=',
+        self::QUERY_AMOUNT_TYPE_LESS => '<',
+        self::QUERY_AMOUNT_TYPE_GREATER => '>',
     ];
-    private int $amount;
+    private ?int $amount = null;
     private int $type = self::QUERY_AMOUNT_TYPE_TURN_OFF;
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
 
     public function setAmount(int $amount): ProductQuery
     {
@@ -24,15 +29,13 @@ class ProductQuery
         return $this;
     }
 
-    public function setType(int $type): ProductQuery
+    public function __toString(): string
     {
-        $this->type = $type;
-        return $this;
-    }
-
-    public function getAmount(): int
-    {
-        return $this->amount;
+        $result = '';
+        if (self::QUERY_AMOUNT_TYPE_CHAR[$this->getType()] ?? null) {
+            $result = 'amount ' . self::QUERY_AMOUNT_TYPE_CHAR[$this->getType()];
+        }
+        return $result;
     }
 
     public function getType(): int
@@ -40,8 +43,9 @@ class ProductQuery
         return $this->type;
     }
 
-    public function __toString(): string
+    public function setType(int $type): ProductQuery
     {
-       return 'amount '. self::QUERY_AMOUNT_TYPE_CHAR[$this->getType()] . $this->amount ?? '';
+        $this->type = $type;
+        return $this;
     }
 }
