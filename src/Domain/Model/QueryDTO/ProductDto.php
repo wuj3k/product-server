@@ -10,26 +10,25 @@ class ProductDto
     private string $id = '';
     private int $amount;
 
+    public function __construct(string $name = '', int $amount = 0, string $id = '')
+    {
+        $this->name = $name;
+        $this->amount = $amount;
+        $this->id = $id;
+    }
+
+    public function __toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'id' => $this->getId(),
+            'amount' => $this->getAmount(),
+        ];
+    }
+
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function setName(string $name = ''): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getAmount(): int
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(int $amount = 0): self
-    {
-        $this->amount = $amount;
-        return $this;
     }
 
     public function getId(): string
@@ -37,18 +36,8 @@ class ProductDto
         return $this->id;
     }
 
-    public function setId(string $id): self
+    public function getAmount(): int
     {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function __toArray(): array
-    {
-        return [
-          'name' => $this->getName(),
-          'id' => $this->getId(),
-          'amount' => $this->getAmount(),
-        ];
+        return $this->amount;
     }
 }

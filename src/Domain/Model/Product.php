@@ -8,13 +8,14 @@ use App\Domain\Model\QueryDTO\ProductDto;
 
 class Product
 {
+    use IdMaker;
     private string $id;
     private string $name;
     private int $amount;
 
     public function __construct(string $name, int $amount)
     {
-        $this->id = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
+        $this->id = $this->makeId();
         $this->name = $name;
         $this->amount = $amount;
     }

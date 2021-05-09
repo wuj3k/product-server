@@ -13,3 +13,17 @@ services:
 
     App\Infrastructure\Controller\ProductController:
         tags: [ 'controller.service_arguments']
+        arguments:
+            - '@App\Domain\ProductFacade'
+            - '@Symfony\Component\Serializer\SerializerInterface'
+    App\Domain\ProductFactory:
+        arguments:
+            - '@App\Application\Repository\DoctrineProductRepository'
+    App\Domain\ProductFacade:
+        arguments:
+            - '@App\Domain\ProductFactory'
+            - '@App\Application\Repository\DoctrineProductRepository'
+    App\Application\Repository\DoctrineProductRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - 'App\Domain\Model\Product'

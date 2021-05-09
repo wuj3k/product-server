@@ -1,0 +1,16 @@
+App\Domain\Model\Product:
+  type: entity
+  repositoryClass: App\Application\Repository\DoctrineProductRepository
+  table: product
+  indexes:
+    name_index:
+      columns: [ amount ]
+  id:
+    id:
+      type: string
+  fields:
+    name:
+      type: string
+      length: 100
+    amount:
+      type: integer

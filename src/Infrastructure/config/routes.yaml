@@ -1,3 +1,23 @@
 app_product_list:
     path: /products
     controller: App\Infrastructure\Controller\ProductController::listAction
+    methods: GET
+    defaults:
+        id: ''
+app_product_get:
+    path: /products/{id}
+    controller: App\Infrastructure\Controller\ProductController::listAction
+    methods: GET
+app_product_put:
+    path: /products/{id}
+    controller: App\Infrastructure\Controller\ProductController::editAction
+    methods: PUT
+app_product_delete:
+    path: /products/{id}
+    controller: App\Infrastructure\Controller\ProductController::deleteAction
+    methods: DELETE
+app_product_new:
+    path: /products
+    controller: App\Infrastructure\Controller\ProductController::newAction
+    methods: POST
+
