@@ -67,7 +67,7 @@ class ProductFacade
 
         try {
             $this->productRepository->save($updatedProduct);
-            return $this->getResponse(204, [], 'Produkt został zaaktualizowany');
+            return $this->getResponse(201, [], 'Produkt został zaaktualizowany');
         } catch (\Exception $exception) {
             return $this->getResponse($exception->getCode(), [], 'Wystapił błąd, proszę spróbować później');
         }
@@ -77,7 +77,7 @@ class ProductFacade
     {
         try {
             $this->productRepository->deleteProductById($productDto->getId());
-            return $this->getResponse(204, [], 'Produkt został usunięty pomyślnie');
+            return $this->getResponse(200, [], 'Produkt został usunięty pomyślnie');
         } catch (\Exception $exception) {
             return $this->getResponse($exception->getCode(), [], 'Wystapił błąd, proszę spróbować później');
         }

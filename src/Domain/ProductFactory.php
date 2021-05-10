@@ -31,7 +31,7 @@ class ProductFactory
     {
         $errors = [];
         if ($productDto->getName() === '') $errors[] = new BusinessLogicException('name', self::ERROR_NAME_BLANK);
-        if ($this->repository->isProductNameAlreadyTaken($productDto->getName())) $errors[] = new BusinessLogicException('name', self::ERROR_NAME_EXISTS);
+        if ($this->repository->isProductNameAlreadyTaken($productDto->getName()) && empty($productDto->getId())) $errors[] = new BusinessLogicException('name', self::ERROR_NAME_EXISTS);
         if ($productDto->getAmount() < 0) $errors[] = new BusinessLogicException('amount', self::ERROR_AMOUNT_VALUE);
 
         /** @var BusinessLogicException[] */
