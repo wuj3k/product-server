@@ -53,13 +53,12 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
     {
         $queryBuilder = $this->createQueryBuilder('t')
             ->select('NEW \App\Domain\Model\QueryDTO\ProductDto(t.name,t.amount,t.id)');
-        if($productQuery->getAmount() && (string)$productQuery) {
+        if($productQuery->getAmount() !== null && (string)$productQuery) {
             $where = 't.'. $productQuery . ' :amount';
             $queryBuilder
                 ->where($where)
                 ->setParameter('amount', $productQuery->getAmount());
         }
-
         return $queryBuilder
             ->getQuery()
             ->getResult();

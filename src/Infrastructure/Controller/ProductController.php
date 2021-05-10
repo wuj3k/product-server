@@ -61,7 +61,6 @@ class ProductController
         $updatedProduct = $this->serializer->denormalize($rawData, ProductDto::class);
 
         $response = $this->productFacade->update($updatedProduct);
-
         $data = $this->serializer->normalize($response->getData());
         return new JsonResponse($data, $response->getStatusCode());
     }
